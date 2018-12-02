@@ -7,12 +7,76 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/atmero_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Átmérő"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/atmero_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/atmero_edit" />
+
+    <EditText
+        android:id="@+id/atmero_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/hossz_edit"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hossz_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Hosszúság"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/hossz_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/hossz_edit" />
+
+    <EditText
+        android:id="@+id/hossz_edit"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/hossz_text"
+        app:layout_constraintTop_toBottomOf="@+id/atmero_edit" />
+
+    <Button
+        android:id="@+id/szamol_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Számol"
+        app:layout_constraintEnd_toEndOf="@+id/hossz_edit"
+        app:layout_constraintStart_toStartOf="@+id/hossz_text"
+        app:layout_constraintTop_toBottomOf="@+id/hossz_edit" />
+
+    <EditText
+        android:id="@+id/eredmeny_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/szamol_button"
+        app:layout_constraintStart_toStartOf="@+id/szamol_button"
+        app:layout_constraintTop_toBottomOf="@+id/szamol_button" />
 
 </android.support.constraint.ConstraintLayout>
