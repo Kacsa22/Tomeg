@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.anyag_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        Toast.makeText(MainActivity.this,String.valueOf(spinner.getSelectedItemId()),Toast.LENGTH_LONG);
+        spinner.setOnItemSelectedListener(this);
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +53,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eredmeny_edit.setText(String.valueOf(eredmeny));
     }
 
+    class Anyag{
+        String nev;
+        Double suruseg;
+        public Anyag(String nev, Double suruseg){
+            this.nev = nev;
+            this.suruseg = suruseg;
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        
     }
 
     @Override
