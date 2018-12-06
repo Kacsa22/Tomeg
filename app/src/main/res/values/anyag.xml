@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="anyag_array">
-        <item>Acél</item>
-        <item>Bronz</item>
+        <item>Acél;7.87</item>
+        <item>Bronz;8.2</item>
+        <item>Aluminum;2.7</item>
+        <item>Víz;1</item>
     </string-array>
 </resources>

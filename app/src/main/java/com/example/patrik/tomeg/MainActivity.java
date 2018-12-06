@@ -27,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        anyagok.add(new Anyag("Vas", 7.87));
-        anyagok.add(new Anyag("Bronz", 8.2));
-        anyagok.add(new Anyag("Aluminium", 2.7));
+        Feltolt();
+        //anyagok.add(new Anyag("Vas", 7.87));
+        //anyagok.add(new Anyag("Bronz", 8.2));
+        //anyagok.add(new Anyag("Aluminium", 2.7));
         //TODO: Objektumokat XML fájlból
         szamol_button = findViewById(R.id.szamol_button);
         atmero_edit = findViewById(R.id.atmero_edit);
@@ -58,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
         suruseg = anyagok.get(spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = (((((atmero * atmero) * Math.PI) / 4) * hossz / 1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
+    }
+
+    public void Feltolt(){
+        String[] adatok = getResources().getStringArray(R.array.anyag_array);
+        for(int i=0;i<adatok.length;i++){
+            String[] adat = adatok[i].split(";");
+            anyagok.add(new Anyag(adat[0],Double.parseDouble(adat[1])));
+        }
     }
 
     class Anyag {
