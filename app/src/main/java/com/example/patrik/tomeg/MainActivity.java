@@ -1,16 +1,17 @@
 package com.example.patrik.tomeg;
 
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.DOMStringList;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     EditText atmero_edit, hossz_edit, eredmeny_edit;
     Double suruseg;
     ArrayList<Anyag> anyagok = new ArrayList<>();
-    Spinner spinner;
+    Spinner anyag_spinner,alakzat_spinner;
+    ConstraintLayout layout;
 
 
     @Override
@@ -28,17 +30,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Feltolt();
-        //anyagok.add(new Anyag("Vas", 7.87));
-        //anyagok.add(new Anyag("Bronz", 8.2));
-        //anyagok.add(new Anyag("Aluminium", 2.7));
-        //TODO: Objektumokat XML fájlból
         szamol_button = findViewById(R.id.szamol_button);
         atmero_edit = findViewById(R.id.atmero_edit);
         hossz_edit = findViewById(R.id.hossz_edit);
         eredmeny_edit = findViewById(R.id.eredmeny_edit);
-        spinner = findViewById(R.id.anyag_spinner);
+        layout = findViewById(R.id.mainlayout);
+        anyag_spinner = findViewById(R.id.anyag_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Nevlist());
-        spinner.setAdapter(adapter);
+        anyag_spinner.setAdapter(adapter);
+        alakzat_spinner = findViewById(R.id.alakzat_spinner);
+        Addbutton();
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void szamol(Double atmero, Double hossz) {
         Double eredmeny;
-        suruseg = anyagok.get(spinner.getSelectedItemPosition()).getSuruseg();
+        suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = (((((atmero * atmero) * Math.PI) / 4) * hossz / 1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
     }
@@ -97,4 +98,30 @@ public class MainActivity extends AppCompatActivity {
         return nevlist;
     }
 
+    public void Addbutton(){
+        //add edit
+        ConstraintSet set = new ConstraintSet();
+        EditText boldal_edit = new EditText(this);
+        hossz_edit.setText("hgfh");
+        boldal_edit.setTextSize(24);
+        boldal_edit.setId(100);           // <-- Important
+        layout.addView(boldal_edit);
+        TextView boldal_text = new TextView(this);
+        boldal_text.setTextSize(24);
+        boldal_text.setText("B oldal");
+        boldal_text.setId(200);
+        layout.addView(boldal_text);
+        set.connect(100, ConstraintSet.TOP, R.id.atmero_edit, ConstraintSet.BOTTOM, 0);
+        set.connect(100,ConstraintSet.LEFT,R.id.atmero_edit,ConstraintSet.LEFT,0);
+        set.connect(100,ConstraintSet.RIGHT,R.id.atmero_edit,ConstraintSet.RIGHT,0);
+        set.connect(200,ConstraintSet.LEFT,R.id.anyag_text,ConstraintSet.LEFT,0);
+        set.connect(200,ConstraintSet.TOP,100,ConstraintSet.TOP,0);
+        set.connect(200,ConstraintSet.BOTTOM,100,ConstraintSet.BOTTOM,0);
+        set.connect(200,ConstraintSet.RIGHT,100,ConstraintSet.LEFT,0);
+        set.constrainHeight(boldal_edit.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
+        set.constrainHeight(boldal_text.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
+        //set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
+        //set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,0);
+        set.applyTo(layout);
+    }
 }

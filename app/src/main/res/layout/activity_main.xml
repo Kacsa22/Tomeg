@@ -4,7 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainlayout"
     tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/alakzat_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Alakzat"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/alakzat_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/alakzat_spinner" />
 
     <TextView
         android:id="@+id/atmero_text"
@@ -28,8 +41,9 @@
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/hossz_edit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/alakzat_spinner" />
 
     <TextView
         android:id="@+id/hossz_text"
@@ -104,5 +118,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/anyag_text"
         app:layout_constraintTop_toBottomOf="@+id/hossz_edit" />
+
+    <Spinner
+        android:id="@+id/alakzat_spinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/atmero_edit"
+        app:layout_constraintStart_toStartOf="@+id/atmero_edit"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
