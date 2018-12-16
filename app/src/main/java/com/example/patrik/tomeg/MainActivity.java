@@ -104,26 +104,35 @@ public class MainActivity extends AppCompatActivity {
         //add edit
         ConstraintSet set = new ConstraintSet();
         set.clone(layout);
-        EditText boldal_edit = new EditText(this);
-        boldal_edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        boldal_edit.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
-        boldal_edit.setId(100);           // <-- Important
-        layout.addView(boldal_edit);
+
         TextView boldal_text = new TextView(this);
+        EditText boldal_edit = new EditText(this);
+
+        boldal_edit.setId(100);
+        boldal_text.setId(200);
+
         boldal_text.setTextSize(24);
         boldal_text.setText("B oldal");
-        boldal_text.setId(200);
+
+        layout.addView(boldal_edit);
         layout.addView(boldal_text);
+
+        set.constrainHeight(boldal_text.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
+        set.constrainHeight(boldal_edit.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        boldal_edit.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        boldal_edit.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+
         set.connect(100, ConstraintSet.TOP, R.id.atmero_edit, ConstraintSet.BOTTOM, 0);
         set.connect(100,ConstraintSet.LEFT,R.id.atmero_edit,ConstraintSet.LEFT,0);
         set.connect(100,ConstraintSet.RIGHT,R.id.atmero_edit,ConstraintSet.RIGHT,0);
+
         set.connect(200,ConstraintSet.LEFT,R.id.anyag_text,ConstraintSet.LEFT,0);
         set.connect(200,ConstraintSet.TOP,100,ConstraintSet.TOP,0);
         set.connect(200,ConstraintSet.BOTTOM,100,ConstraintSet.BOTTOM,0);
         set.connect(200,ConstraintSet.RIGHT,100,ConstraintSet.LEFT,0);
-        set.constrainHeight(boldal_text.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
-        set.constrainHeight(boldal_edit.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
-        //set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
+
+        // set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
         set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,8);
         set.applyTo(layout);
     }
