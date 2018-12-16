@@ -4,6 +4,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -101,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
     public void Addbutton(){
         //add edit
         ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
         EditText boldal_edit = new EditText(this);
-        hossz_edit.setText("hgfh");
-        boldal_edit.setTextSize(24);
+        boldal_edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        boldal_edit.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
         boldal_edit.setId(100);           // <-- Important
         layout.addView(boldal_edit);
         TextView boldal_text = new TextView(this);
@@ -118,10 +121,10 @@ public class MainActivity extends AppCompatActivity {
         set.connect(200,ConstraintSet.TOP,100,ConstraintSet.TOP,0);
         set.connect(200,ConstraintSet.BOTTOM,100,ConstraintSet.BOTTOM,0);
         set.connect(200,ConstraintSet.RIGHT,100,ConstraintSet.LEFT,0);
-        set.constrainHeight(boldal_edit.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
         set.constrainHeight(boldal_text.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
+        set.constrainHeight(boldal_edit.getId(), ViewGroup.LayoutParams.WRAP_CONTENT);
         //set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
-        //set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,0);
+        set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,8);
         set.applyTo(layout);
     }
 }
