@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                             Hengerszamol(atmero, hossz);
                         }
                         catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Hülye vagy fiam!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Minden mezőt ki kell tölteni!!!", Toast.LENGTH_LONG).show();
                         }
                     break;
                     case 1:
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                             Teglaszamol(aoldal, boldal, hossz);
                         }
                         catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Hülye vagy fiam!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Minden mezőt ki kell tölteni!!!", Toast.LENGTH_LONG).show();
                         }
                         break;
                 }
@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         atmero_edit.setText("");
         boldal_edit.setText("");
         hossz_edit.setText("");
+        eredmeny_edit.setText("");
     }
 
     public void Deleteedit(){
@@ -212,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
         atmero_edit.setText("");
         hossz_edit.setText("");
+        eredmeny_edit.setText("");
 
     }
 }
