@@ -8,6 +8,7 @@ import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,47 +21,102 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Button szamol_button;
-    EditText atmero_edit, hossz_edit, eredmeny_edit;
+    EditText atmero_edit, hossz_edit, eredmeny_edit, boldal_edit;
     Double suruseg;
     ArrayList<Anyag> anyagok = new ArrayList<>();
+    ArrayList<String> alakzat = new ArrayList<>();
     Spinner anyag_spinner,alakzat_spinner;
     ConstraintLayout layout;
+    TextView boldal_text, atmero_text;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Feltolt();
+
+        alakzat.add("Henger");
+        alakzat.add("Téglatest");
+
         szamol_button = findViewById(R.id.szamol_button);
         atmero_edit = findViewById(R.id.atmero_edit);
         hossz_edit = findViewById(R.id.hossz_edit);
         eredmeny_edit = findViewById(R.id.eredmeny_edit);
         layout = findViewById(R.id.mainlayout);
         anyag_spinner = findViewById(R.id.anyag_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Nevlist());
-        anyag_spinner.setAdapter(adapter);
         alakzat_spinner = findViewById(R.id.alakzat_spinner);
-        Addbutton();
+        atmero_text = findViewById(R.id.atmero_text);
+
+        ArrayAdapter<String> amyag_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Nevlist());
+        anyag_spinner.setAdapter(amyag_adapter);
+        ArrayAdapter<String> alakzat_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, alakzat);
+        alakzat_spinner.setAdapter(alakzat_adapter);
+
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double atmero, hossz;
-                try {
-                    atmero = Double.parseDouble(atmero_edit.getText().toString());
-                    hossz = Double.parseDouble(hossz_edit.getText().toString());
-                    szamol(atmero, hossz);
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "Hülye vagy fiam!!!", Toast.LENGTH_LONG).show();
+                double atmero, aoldal,boldal, hossz;
+                switch (alakzat_spinner.getSelectedItemPosition()){
+                    case 0:
+                        try {
+                            atmero = Double.parseDouble(atmero_edit.getText().toString());
+                            hossz = Double.parseDouble(hossz_edit.getText().toString());
+                            Hengerszamol(atmero, hossz);
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Hülye vagy fiam!!!", Toast.LENGTH_LONG).show();
+                        }
+                    break;
+                    case 1:
+                        try {
+                            aoldal = Double.parseDouble(atmero_edit.getText().toString());
+                            boldal = Double.parseDouble(boldal_edit.getText().toString());
+                            hossz = Double.parseDouble(hossz_edit.getText().toString());
+                            Teglaszamol(aoldal, boldal, hossz);
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Hülye vagy fiam!!!", Toast.LENGTH_LONG).show();
+                        }
+                        break;
                 }
             }
         });
+
+        alakzat_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                switch (position){
+                    case 0:
+                        Deleteedit();
+                    break;
+                    case 1:
+                        Addedit();
+                    break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
     }
 
-    private void szamol(Double atmero, Double hossz) {
+    private void Hengerszamol(Double atmero, Double hossz) {
         Double eredmeny;
         suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = (((((atmero * atmero) * Math.PI) / 4) * hossz / 1000000) * suruseg);
+        eredmeny_edit.setText(String.valueOf(eredmeny));
+    }
+
+    private void Teglaszamol(Double aoldal, Double boldal, Double hossz){
+        Double eredmeny;
+        suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
+        eredmeny = ((aoldal*boldal*hossz/1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
     }
 
@@ -100,13 +156,13 @@ public class MainActivity extends AppCompatActivity {
         return nevlist;
     }
 
-    public void Addbutton(){
+    public void Addedit(){
         //add edit
         ConstraintSet set = new ConstraintSet();
         set.clone(layout);
 
-        TextView boldal_text = new TextView(this);
-        EditText boldal_edit = new EditText(this);
+        boldal_text = new TextView(this);
+        boldal_edit = new EditText(this);
 
         boldal_edit.setId(100);
         boldal_text.setId(200);
@@ -135,5 +191,27 @@ public class MainActivity extends AppCompatActivity {
         // set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
         set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,8);
         set.applyTo(layout);
+
+        atmero_text.setText("A oldal");
+
+        atmero_edit.setText("");
+        boldal_edit.setText("");
+        hossz_edit.setText("");
+    }
+
+    public void Deleteedit(){
+        layout.removeView(boldal_edit);
+        layout.removeView(boldal_text);
+
+        ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
+        set.connect(R.id.hossz_edit,ConstraintSet.TOP,R.id.atmero_edit,ConstraintSet.BOTTOM,8);
+        set.applyTo(layout);
+
+        atmero_text.setText("Átmérő");
+
+        atmero_edit.setText("");
+        hossz_edit.setText("");
+
     }
 }
