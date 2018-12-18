@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Button szamol_button;
-    EditText atmero_edit, hossz_edit, eredmeny_edit, boldal_edit;
+    EditText ar_edit, egysegar_edit,atmero_edit, hossz_edit, eredmeny_edit, boldal_edit;
     Double suruseg;
     ArrayList<Anyag> anyagok = new ArrayList<>();
     ArrayList<String> alakzat = new ArrayList<>();
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         anyag_spinner = findViewById(R.id.anyag_spinner);
         alakzat_spinner = findViewById(R.id.alakzat_spinner);
         atmero_text = findViewById(R.id.atmero_text);
+        egysegar_edit = findViewById(R.id.egysegar_edit);
+        ar_edit = findViewById(R.id.ar_edit);
 
         ArrayAdapter<String> amyag_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Nevlist());
         anyag_spinner.setAdapter(amyag_adapter);
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double atmero, aoldal,boldal, hossz;
+                double atmero, aoldal,boldal, hossz, egysegar, tomeg;
                 switch (alakzat_spinner.getSelectedItemPosition()){
                     case 0:
                         try {
@@ -77,9 +79,19 @@ public class MainActivity extends AppCompatActivity {
                             Teglaszamol(aoldal, boldal, hossz);
                         }
                         catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Minden mezőt ki kell tölteni!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Karakterhiba", Toast.LENGTH_LONG).show();
                         }
-                        break;
+                    break;
+                }
+                if (!egysegar_edit.getText().toString().equals("")){
+                    try{
+                        egysegar = Double.parseDouble(egysegar_edit.getText().toString());
+                        tomeg = Double.parseDouble(eredmeny_edit.getText().toString());
+                        Arszamol(egysegar,tomeg);
+                    }
+                    catch (Exception E){
+                        Toast.makeText(MainActivity.this, "valami", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -111,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = (((((atmero * atmero) * Math.PI) / 4) * hossz / 1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
+
     }
 
     private void Teglaszamol(Double aoldal, Double boldal, Double hossz){
@@ -118,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
         suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = ((aoldal*boldal*hossz/1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
+    }
+
+    private void Arszamol(Double egysegar, Double tomeg){
+        Double eredmeny;
+        eredmeny = egysegar * tomeg;
+        ar_edit.setText(String.valueOf(eredmeny));
     }
 
     public void Feltolt(){

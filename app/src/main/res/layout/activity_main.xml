@@ -106,8 +106,32 @@
         app:layout_constraintStart_toStartOf="@+id/szamol_button"
         app:layout_constraintTop_toBottomOf="@+id/szamol_button" />
 
-    <Spinner
-        android:id="@+id/anyag_spinner"
+    <EditText
+        android:id="@+id/ar_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/szamol_button"
+        app:layout_constraintStart_toStartOf="@+id/szamol_button"
+        app:layout_constraintTop_toBottomOf="@+id/eredmeny_edit" />
+
+    <TextView
+        android:id="@+id/egysegar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Egységár"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/egysegar_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/egysegar_edit" />
+
+    <EditText
+        android:id="@+id/egysegar_edit"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -115,9 +139,23 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/anyag_text"
+        app:layout_constraintStart_toEndOf="@+id/hossz_text"
         app:layout_constraintTop_toBottomOf="@+id/hossz_edit" />
+
+    <Spinner
+        android:id="@+id/anyag_spinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/hossz_text"
+        app:layout_constraintTop_toBottomOf="@+id/egysegar_edit" />
 
     <Spinner
         android:id="@+id/alakzat_spinner"
