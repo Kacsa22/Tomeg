@@ -1,5 +1,6 @@
 package com.example.patrik.tomeg;
 
+import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -55,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
         anyag_spinner.setAdapter(amyag_adapter);
         ArrayAdapter<String> alakzat_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, alakzat);
         alakzat_spinner.setAdapter(alakzat_adapter);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(atmero_edit.getWindowToken(), 0);
+                }
+            }
+        });
 
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
