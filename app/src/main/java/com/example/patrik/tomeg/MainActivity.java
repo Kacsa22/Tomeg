@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner anyag_spinner,alakzat_spinner;
     ConstraintLayout layout;
     TextView boldal_text, atmero_text;
+    Boolean bovitett;
 
 
     @Override
@@ -39,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         Feltolt();
 
+        bovitett = false;
+
         alakzat.add("Henger");
         alakzat.add("Téglatest");
+        alakzat.add("Cső");
 
         szamol_button = findViewById(R.id.szamol_button);
         atmero_edit = findViewById(R.id.atmero_edit);
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double atmero, aoldal,boldal, hossz, egysegar, tomeg;
+                double atmero, aoldal, boldal, nagyatmero, kisatmero, hossz, egysegar, tomeg;
                 switch (alakzat_spinner.getSelectedItemPosition()){
                     case 0:
                         try {
@@ -94,6 +98,17 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Karakterhiba", Toast.LENGTH_LONG).show();
                         }
                     break;
+                    case 2:
+                        try {
+                            nagyatmero = Double.parseDouble(atmero_edit.getText().toString());
+                            kisatmero = Double.parseDouble(boldal_edit.getText().toString());
+                            hossz = Double.parseDouble(hossz_edit.getText().toString());
+                            Csoszamol(nagyatmero, kisatmero, hossz);
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Karakterhiba", Toast.LENGTH_LONG).show();
+                        }
+                        break;
                 }
                 if (!egysegar_edit.getText().toString().equals("")){
                     try{
@@ -113,10 +128,21 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 switch (position){
                     case 0:
-                        Deleteedit();
+                        if (bovitett) {
+                            Deleteedit();
+                        }
                     break;
                     case 1:
-                        Addedit();
+                        if (!bovitett) {
+                            Addedit();
+                        }
+                        Changeedit(position);
+                    break;
+                    case 2:
+                        if (!bovitett) {
+                            Addedit();
+                        }
+                        Changeedit(position);
                     break;
                 }
 
@@ -142,6 +168,13 @@ public class MainActivity extends AppCompatActivity {
         Double eredmeny;
         suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = ((aoldal*boldal*hossz/1000000) * suruseg);
+        eredmeny_edit.setText(String.valueOf(eredmeny));
+    }
+
+    private void Csoszamol(Double nagyatmero, Double kisatmero, Double hossz) {
+        Double eredmeny;
+        suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
+        eredmeny = ((((((nagyatmero* nagyatmero) * Math.PI) / 4)-(((kisatmero * kisatmero) * Math.PI) / 4)) * hossz / 1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
     }
 
@@ -199,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
         boldal_text.setId(200);
 
         boldal_text.setTextSize(24);
-        boldal_text.setText("B oldal");
 
         layout.addView(boldal_edit);
         layout.addView(boldal_text);
@@ -219,16 +251,31 @@ public class MainActivity extends AppCompatActivity {
         set.connect(200,ConstraintSet.BOTTOM,100,ConstraintSet.BOTTOM,0);
         set.connect(200,ConstraintSet.RIGHT,100,ConstraintSet.LEFT,0);
 
-        // set.connect(R.id.atmero_edit,ConstraintSet.BOTTOM,100,ConstraintSet.TOP,0);
         set.connect(R.id.hossz_edit,ConstraintSet.TOP,100,ConstraintSet.BOTTOM,8);
         set.applyTo(layout);
 
-        atmero_text.setText("A oldal");
+        bovitett = true;
+    }
 
-        atmero_edit.setText("");
-        boldal_edit.setText("");
-        hossz_edit.setText("");
-        eredmeny_edit.setText("");
+    public void Changeedit(int position){
+        switch (position){
+            case 1:
+                atmero_edit.setText("");
+                boldal_edit.setText("");
+                hossz_edit.setText("");
+                eredmeny_edit.setText("");
+                atmero_text.setText("A oldal");
+                boldal_text.setText("B oldal");
+            break;
+            case 2:
+                atmero_edit.setText("");
+                boldal_edit.setText("");
+                hossz_edit.setText("");
+                eredmeny_edit.setText("");
+                atmero_text.setText("Nagy átmérő");
+                boldal_text.setText("Kis átmérő");
+            break;
+        }
     }
 
     public void Deleteedit(){
@@ -245,6 +292,8 @@ public class MainActivity extends AppCompatActivity {
         atmero_edit.setText("");
         hossz_edit.setText("");
         eredmeny_edit.setText("");
+
+        bovitett = false;
 
     }
 }
