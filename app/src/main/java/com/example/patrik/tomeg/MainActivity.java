@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         alakzat.add("Henger");
         alakzat.add("Téglatest");
         alakzat.add("Cső");
+        alakzat.add("Hatszög");
 
         szamol_button = findViewById(R.id.szamol_button);
         atmero_edit = findViewById(R.id.atmero_edit);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         szamol_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double atmero, aoldal, boldal, nagyatmero, kisatmero, hossz, egysegar, tomeg;
+                double atmero, aoldal, boldal, nagyatmero, kisatmero, laptav, hossz, egysegar, tomeg;
                 switch (alakzat_spinner.getSelectedItemPosition()){
                     case 0:
                         try {
@@ -108,7 +109,18 @@ public class MainActivity extends AppCompatActivity {
                         catch (Exception e) {
                             Toast.makeText(MainActivity.this, "Karakterhiba", Toast.LENGTH_LONG).show();
                         }
-                        break;
+                    break;
+                    case 3:
+                        try {
+                            laptav = Double.parseDouble(atmero_edit.getText().toString());
+                            hossz = Double.parseDouble(hossz_edit.getText().toString());
+                            Hatszogszamol(laptav, hossz);
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Karakterhiba", Toast.LENGTH_LONG).show();
+                        }
+                    break;
+
                 }
                 if (!egysegar_edit.getText().toString().equals("")){
                     try{
@@ -131,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         if (bovitett) {
                             Deleteedit();
                         }
+                        Changeedit(position);
                     break;
                     case 1:
                         if (!bovitett) {
@@ -141,6 +154,12 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         if (!bovitett) {
                             Addedit();
+                        }
+                        Changeedit(position);
+                    break;
+                    case 3:
+                        if (bovitett) {
+                            Deleteedit();
                         }
                         Changeedit(position);
                     break;
@@ -175,6 +194,15 @@ public class MainActivity extends AppCompatActivity {
         Double eredmeny;
         suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
         eredmeny = ((((((nagyatmero* nagyatmero) * Math.PI) / 4)-(((kisatmero * kisatmero) * Math.PI) / 4)) * hossz / 1000000) * suruseg);
+        eredmeny_edit.setText(String.valueOf(eredmeny));
+    }
+
+    private void Hatszogszamol(Double laptav, Double hossz) {
+        Double eredmeny, terulet, oldalhossz;
+        suruseg = anyagok.get(anyag_spinner.getSelectedItemPosition()).getSuruseg();
+        oldalhossz = laptav / (Math.sqrt(3)/2) / 2;
+        terulet = (oldalhossz * oldalhossz)  * Math.sqrt(3) / 4;
+        eredmeny = (((terulet * 6) * hossz / 1000000) * suruseg);
         eredmeny_edit.setText(String.valueOf(eredmeny));
     }
 
@@ -259,6 +287,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void Changeedit(int position){
         switch (position){
+            case 0:
+                atmero_text.setText("Átmérő");
+                atmero_edit.setText("");
+                hossz_edit.setText("");
+                eredmeny_edit.setText("");
+            break;
             case 1:
                 atmero_edit.setText("");
                 boldal_edit.setText("");
@@ -275,6 +309,12 @@ public class MainActivity extends AppCompatActivity {
                 atmero_text.setText("Nagy átmérő");
                 boldal_text.setText("Kis átmérő");
             break;
+            case 3:
+                atmero_text.setText("Laptáv");
+                atmero_edit.setText("");
+                hossz_edit.setText("");
+                eredmeny_edit.setText("");
+            break;
         }
     }
 
@@ -286,12 +326,6 @@ public class MainActivity extends AppCompatActivity {
         set.clone(layout);
         set.connect(R.id.hossz_edit,ConstraintSet.TOP,R.id.atmero_edit,ConstraintSet.BOTTOM,8);
         set.applyTo(layout);
-
-        atmero_text.setText("Átmérő");
-
-        atmero_edit.setText("");
-        hossz_edit.setText("");
-        eredmeny_edit.setText("");
 
         bovitett = false;
 
