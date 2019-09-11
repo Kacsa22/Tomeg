@@ -171,7 +171,19 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
+        });
 
+        anyag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                eredmeny_edit.setText("");
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
         });
     }
 
